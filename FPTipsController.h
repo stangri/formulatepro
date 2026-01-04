@@ -11,7 +11,7 @@
 
 @interface FPTipsController : NSObject {
     NSArray *_tips;
-    unsigned int _tipOnDisplay;
+    NSUInteger _tipOnDisplay;
     IBOutlet NSTextField *_tipTextField;
     IBOutlet NSWindow *_tipWindow;
 }

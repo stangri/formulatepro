@@ -85,11 +85,11 @@ static NSString *pathArchiveKey = @"path";
 {
     NSBezierPath *tempPath = [[_path copy] autorelease];
     NSAffineTransform *scaleTransform = [NSAffineTransform transform];
-	NSSize tempSize = [tempPath bounds].size;
-	[scaleTransform scaleXBy:(tempSize.width > 1.0e-6) ?
-							     (_bounds.size.width/tempSize.width) : 1.0
-	                     yBy:(tempSize.height > 1.0e-6) ?
-						         (_bounds.size.height/tempSize.height) : 1.0];
+    NSSize tempSize = [tempPath bounds].size;
+    [scaleTransform scaleXBy:(tempSize.width > 1.0e-6) ?
+                                 (_bounds.size.width/tempSize.width) : 1.0
+                         yBy:(tempSize.height > 1.0e-6) ?
+                                 (_bounds.size.height/tempSize.height) : 1.0];
     [tempPath transformUsingAffineTransform:scaleTransform];
     NSAffineTransform *translateTransform = [NSAffineTransform transform];
     [translateTransform
@@ -119,7 +119,6 @@ static NSString *pathArchiveKey = @"path";
 - (BOOL)placeWithEvent:(NSEvent *)theEvent
 {
     NSPoint point;
-    NSGraphicsContext *gc;
     
     _page = [_docView pageForPointFromEvent:theEvent];
     point = [_docView pagePointForPointFromEvent:theEvent page:_page];
@@ -129,9 +128,8 @@ static NSString *pathArchiveKey = @"path";
     
     _path = [[NSBezierPath bezierPath] retain];
     [_path moveToPoint:point];
-
-    gc = [NSGraphicsContext graphicsContextWithWindow:[_docView window]];
-    [NSGraphicsContext setCurrentContext:gc];
+    // During tracking, update the model path and let AppKit redraw via the normal drawing pipeline.
+    NSView *contentView = [[_docView window] contentView];
     [NSBezierPath setDefaultLineWidth:[_docView scaleFactor]];
     [_path setLineWidth:1.0];
     [_path setLineJoinStyle:NSBevelLineJoinStyle];
@@ -142,14 +140,9 @@ static NSString *pathArchiveKey = @"path";
         
         new_point = [_docView pagePointForPointFromEvent:theEvent page:_page];
         [_path lineToPoint:new_point];
-        if (NSPointInRect([self pageToWindowPoint:point],
-                          [[[_docView window] contentView] frame]) &&
-            NSPointInRect([self pageToWindowPoint:new_point],
-                          [[[_docView window] contentView] frame])) {
-            [NSBezierPath strokeLineFromPoint:[self pageToWindowPoint:point]
-             toPoint:[self pageToWindowPoint:new_point]];
-            [gc flushGraphics];
-        }
+        // Ask the view/window to redraw so the in-progress path appears while dragging.
+        [contentView setNeedsDisplay:YES];
+        [[_docView window] displayIfNeeded];
 
         // get ready for next iteration of the loop, or break out of loop
         point = new_point;
@@ -160,8 +153,7 @@ static NSString *pathArchiveKey = @"path";
             break;
     }
     _bounds = [_path bounds];
-    [NSGraphicsContext restoreGraphicsState];
-    [[[_docView window] contentView] setNeedsDisplay:YES];
+    [contentView setNeedsDisplay:YES];
     return YES;
 }
 @end

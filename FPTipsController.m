@@ -18,31 +18,31 @@ static NSString *kFPNextToolTip = @"FPNextToolTip";
 {
     NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES],kFPShowTipsAtStartup,
-        [NSNumber numberWithUnsignedInt:0],kFPNextToolTip,
+        [NSNumber numberWithUnsignedInteger:0],kFPNextToolTip,
         nil,nil];
     [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaults];
 }
 
-- (unsigned int)getNextTipIndexFromDefaults
+- (NSUInteger)getNextTipIndexFromDefaults
 {
     id dict = [[NSUserDefaultsController sharedUserDefaultsController] values];
-    return [(NSNumber*)[dict valueForKey:kFPNextToolTip] unsignedIntValue];
+    return [(NSNumber*)[dict valueForKey:kFPNextToolTip] unsignedIntegerValue];
 }
 
-- (void)setNextTipIndexToDefaults:(unsigned int)nextTip;
+- (void)setNextTipIndexToDefaults:(NSUInteger)nextTip;
 {
 //    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
 //        [NSNumber numberWithUnsignedInt:nextTip],kFPNextToolTip,
 //        nil,nil];
     id values = [[NSUserDefaultsController sharedUserDefaultsController] values];
-    [values setValue:[NSNumber numberWithUnsignedInt:nextTip] forKey:kFPNextToolTip];
+    [values setValue:[NSNumber numberWithUnsignedInteger:nextTip] forKey:kFPNextToolTip];
 //    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaults];
 //    DLog(@"about to save\n");
 //    [(NSUserDefaultsController*)[NSUserDefaultsController sharedUserDefaultsController] save:self];
 //    DLog(@"saved\n");
 }
 
-- (void)displayTip:(unsigned int)tip
+- (void)displayTip:(NSUInteger)tip
 {
     if (tip >= [_tips count])
         tip = 0;
@@ -82,6 +82,7 @@ static NSString *kFPNextToolTip = @"FPNextToolTip";
 
 - (IBAction)nextTip:(id)sender
 {
+    if ([_tips count] == 0) return;
     _tipOnDisplay++;
     if (_tipOnDisplay >= [_tips count])
         _tipOnDisplay = 0;
@@ -90,9 +91,12 @@ static NSString *kFPNextToolTip = @"FPNextToolTip";
 
 - (IBAction)previousTip:(id)sender
 {
+    if ([_tips count] == 0)
+        return;
     if (_tipOnDisplay == 0)
-        _tipOnDisplay = [_tips count];
-    _tipOnDisplay--;
+        _tipOnDisplay = [_tips count] - 1;
+    else
+        _tipOnDisplay--;
     [self displayTip:_tipOnDisplay];
 }
 

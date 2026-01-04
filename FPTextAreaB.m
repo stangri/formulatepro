@@ -166,12 +166,11 @@ static NSLayoutManager *sharedDrawingLayoutManager();
         //NSRect pixelBounds = [_docView convertRect:bounds fromPage:_page];
         NSLayoutManager *lm = sharedDrawingLayoutManager();
         NSTextContainer *tc = [[lm textContainers] objectAtIndex:0];
-        NSRange glyphRange;
         [tc setContainerSize:NSMakeSize(NSWidth(bounds), 1.0e6)];
         [_textStorage addLayoutManager:lm];
         // Force layout of the text and find out how much of it fits in
         // the container.
-        glyphRange = [lm glyphRangeForTextContainer:tc];
+        (void)[lm glyphRangeForTextContainer:tc];
         NSRect glyphRect = [lm usedRectForTextContainer:tc];
         [_textStorage removeLayoutManager:lm];
         float heightChange = NSHeight(glyphRect) - NSHeight(bounds);
@@ -292,10 +291,10 @@ static NSLayoutManager *sharedDrawingLayoutManager() {
         isFirstEdit = YES;
         DLog(@"allocating\n");
         [self instantiateVariableWidthEditor];
-	}
+    }
     [self documentDidZoom];
     [_textStorage addLayoutManager:[_editor layoutManager]];
-	
+    
     if (_isAutoSizedX) {
         NSRect frame = _bounds;
         [[_editor layoutManager]
@@ -361,12 +360,12 @@ static NSLayoutManager *sharedDrawingLayoutManager() {
 
 - (void)stopEditing
 {
-	DLog(@"stop editing\n");
+    DLog(@"stop editing\n");
     assert(_editor);
     [_textStorage removeLayoutManager:[_editor layoutManager]];
     [_editor setSelectedRange:NSMakeRange(0, 0)];
     [_editor setDelegate:nil];
-	//[[_editor layoutManager] setDelegate:nil];
+    //[[_editor layoutManager] setDelegate:nil];
     [_editor removeFromSuperview];
     _isEditing = NO;
 }

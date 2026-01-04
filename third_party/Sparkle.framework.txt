@@ -1,1 +1,0 @@
-This is the Sparkle 1.5 b6 framework
