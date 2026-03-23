@@ -208,7 +208,7 @@ static NSString *MyDocToolbarIdentifierPreviousPage =
               ofType:(NSString *)typeName
                error:(NSError **)outError
 {
-    DLog(@"readFromData:0x%08x ofType:%@\n", (unsigned)data, typeName);
+    DLog(@"readFromData:%p ofType:%@\n", data, typeName);
     if ([typeName isEqualToString:@"PDF Document"]) {
         _originalPDFData = [data retain];
         [self setFileURL:nil];  // causes document to be "untitled" and otherwise
@@ -620,7 +620,7 @@ static NSString *MyDocToolbarIdentifierPreviousPage =
     //    setValue:[NSNumber numberWithInt:[_pdf_document pageCount]]
     //      forKey:@"NSPagesAcross"];
     [[[printOperation printInfo] dictionary]
-        setValue:[NSNumber numberWithInt:[_pdf_document pageCount]]
+        setValue:[NSNumber numberWithUnsignedInteger:[_pdf_document pageCount]]
           forKey:@"NSLastPage"];
     
     // add option for (not) printing original PDF

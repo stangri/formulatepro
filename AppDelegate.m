@@ -35,7 +35,7 @@
 
     NSTextView *textView = [[NSTextView alloc] initWithFrame:[[scrollView contentView] bounds]];
     [textView setEditable:NO];
-    [textView setFont:[NSFont monospacedSystemFontOfSize:11 weight:NSFontWeightRegular]];
+    [textView setFont:[NSFont userFixedPitchFontOfSize:11]];
     [textView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [[textView textStorage] beginEditing];
     [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:license]];

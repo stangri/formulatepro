@@ -175,7 +175,7 @@ static NSString *versionArchiveKey = @"version";
             forKey:knobMaskArchiveKey];
     [ret setObject:[NSNumber numberWithBool:_gFlags.hidesWhenPrinting]
             forKey:hideWhenPrintingArchiveKey];
-    [ret setObject:[NSNumber numberWithUnsignedInt:_page]
+    [ret setObject:[NSNumber numberWithUnsignedInteger:_page]
             forKey:pageArchiveKey];
     [ret setObject:[[self class] archivalClassName]
             forKey:graphicClassArchiveKey];
@@ -408,7 +408,7 @@ BOOL FPRectSetLeftAbs(NSRect *rect, float left)
     [self setBounds:bounds];
 }
 
-- (void)reassignToPage:(unsigned int)page
+- (void)reassignToPage:(NSUInteger)page
 {
     [self setBounds:[_docView convertRect:[_docView convertRect:[self bounds]
                                                        fromPage:_page]
@@ -537,7 +537,7 @@ const float knobSize = 6.0;
     return NoKnob;
 }
 
-- (unsigned int)page
+- (NSUInteger)page
 {
     return _page;
 }

@@ -56,18 +56,6 @@
 		C4F40AD50B35D6F1008063B4 /* FPDocumentWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F40AD40B35D6F1008063B4 /* FPDocumentWindow.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		8509150423AF99B5004B320B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -314,7 +302,6 @@
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				8509150423AF99B5004B320B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -455,6 +442,7 @@
 		C4AB3E9C0A5AFE1100EE29B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
@@ -464,15 +452,10 @@
 				DEVELOPMENT_TEAM = 5KC7826QG5;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 885FVTF3YD;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
+					"\"$(SRCROOT)\"",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/third_party\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -491,6 +474,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = net.melmac.formulatepro;
 				PRODUCT_NAME = FormulatePro;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -501,6 +485,7 @@
 		C4AB3E9D0A5AFE1100EE29B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
@@ -511,17 +496,10 @@
 				DEVELOPMENT_TEAM = 5KC7826QG5;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = 885FVTF3YD;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"@loader_path/../Frameworks",
-
+					"$(inherited)",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
+					"\"$(SRCROOT)\"",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/third_party\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -539,6 +517,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = net.melmac.formulatepro;
 				PRODUCT_NAME = FormulatePro;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;

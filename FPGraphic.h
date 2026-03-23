@@ -45,7 +45,7 @@ enum {
     
     FPDocumentView *_docView;
     BOOL _hasPage;
-    unsigned int _page;
+    NSUInteger _page;
 }
 
 - (id)copyWithZone:(NSZone *)zone;
@@ -62,11 +62,11 @@ enum {
 - (BOOL)placeWithEvent:(NSEvent *)theEvent;
 - (void)resizeWithEvent:(NSEvent *)theEvent byKnob:(int)knob;
 - (void)moveGraphicByX:(float)x byY:(float)y;
-- (void)reassignToPage:(unsigned int)page;
+- (void)reassignToPage:(NSUInteger)page;
 
 - (void)documentDidZoom;
 
-- (unsigned int)page;
+- (NSUInteger)page;
 
 - (void)draw:(BOOL)selected;
 - (void)drawKnobs;

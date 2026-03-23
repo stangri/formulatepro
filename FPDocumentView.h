@@ -12,7 +12,7 @@
 {
     IBOutlet MyDocument *_doc;
     PDFDocument *_pdf_document;
-    unsigned int _current_page;
+    NSUInteger _current_page;
     PDFDisplayBox _box;
     float _scale_factor;
     BOOL _draws_shadow;
@@ -34,7 +34,7 @@
 
 - (void)nextPage;
 - (void)previousPage;
-- (void)scrollToPage:(unsigned int)page;
+- (void)scrollToPage:(NSUInteger)page;
 
 - (float)scaleFactor;
 
@@ -48,21 +48,21 @@
 - (BOOL)handleColorChange:(NSColor*)newColor;
 - (NSColor*)defaultStrokeColor;
 
-- (unsigned int)getViewingMidpointToPage:(unsigned int*)page pagePoint:(NSPoint*)pagePoint;
-- (void)scrollToMidpointOnPage:(unsigned int)page point:(NSPoint)midPoint;
+- (NSUInteger)getViewingMidpointToPage:(NSUInteger *)page pagePoint:(NSPoint*)pagePoint;
+- (void)scrollToMidpointOnPage:(NSUInteger)page point:(NSPoint)midPoint;
 
 // place image
 - (IBAction)placeImage:(id)sender;
 
 // coordinate transforms
-- (unsigned int)pageForPointFromEvent:(NSEvent *)theEvent;
-- (unsigned int)pageForPoint:(NSPoint)point;
+- (NSUInteger)pageForPointFromEvent:(NSEvent *)theEvent;
+- (NSUInteger)pageForPoint:(NSPoint)point;
 - (NSPoint)pagePointForPointFromEvent:(NSEvent *)theEvent
-                                 page:(unsigned int)page;
-- (NSRect)convertRect:(NSRect)rect toPage:(unsigned int)page;
-- (NSRect)convertRect:(NSRect)rect fromPage:(unsigned int)page;
-- (NSPoint)convertPoint:(NSPoint)point toPage:(unsigned int)page;
-- (NSPoint)convertPoint:(NSPoint)point fromPage:(unsigned int)page;
+                                 page:(NSUInteger)page;
+- (NSRect)convertRect:(NSRect)rect toPage:(NSUInteger)page;
+- (NSRect)convertRect:(NSRect)rect fromPage:(NSUInteger)page;
+- (NSPoint)convertPoint:(NSPoint)point toPage:(NSUInteger)page;
+- (NSPoint)convertPoint:(NSPoint)point fromPage:(NSUInteger)page;
 
 // printing
 - (FPDocumentView *)printableCopy;
@@ -76,5 +76,5 @@
 - (NSFont *)currentFont;
 
 // private
-- (NSAffineTransform *)transformForPage:(unsigned int)page;
+- (NSAffineTransform *)transformForPage:(NSUInteger)page;
 @end

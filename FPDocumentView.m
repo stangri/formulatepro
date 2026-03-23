@@ -18,7 +18,7 @@ static const float ZoomScaleFactor = 1.3;
     return [(FPDocumentWindow*)[self window] currentFont];
 }
 
-- (NSSize)pageSizeForPage:(unsigned int)page
+- (NSSize)pageSizeForPage:(NSUInteger)page
 {
     PDFPage *pg = [_pdf_document pageAtIndex:page];
     NSSize ret = [pg boundsForBox:_box].size;
@@ -27,7 +27,7 @@ static const float ZoomScaleFactor = 1.3;
     return ret;
 }
 
-- (NSSize)sizeForPage:(unsigned int)page
+- (NSSize)sizeForPage:(NSUInteger)page
 {
     NSSize ret = [self pageSizeForPage:page];
     ret.width *= _scale_factor;
@@ -42,7 +42,7 @@ static const float ZoomScaleFactor = 1.3;
         return NSMakeRect(0.0, 0.0, 10.0, 10.0);
     }
     NSRect ret = NSMakeRect(0.0, 0.0, 0.0, 0.0);
-    for (unsigned int i = 0; i < [_pdf_document pageCount]; i++) {
+    for (NSUInteger i = 0; i < [_pdf_document pageCount]; i++) {
         NSSize sz = [self sizeForPage:i];
         if (sz.width > NSWidth(ret))
             ret.size.width = sz.width;
@@ -158,11 +158,11 @@ static const float ZoomScaleFactor = 1.3;
     [self setNeedsDisplay:YES];
 }
 
-- (unsigned int)getViewingMidpointToPage:(unsigned int*)page pagePoint:(NSPoint*)pagePoint
+- (NSUInteger)getViewingMidpointToPage:(NSUInteger *)page pagePoint:(NSPoint*)pagePoint
 {
     NSPoint midpoint = NSMakePoint(NSMidX([self visibleRect]),
                                    NSMidY([self visibleRect]));
-    unsigned int ret = [self pageForPoint:midpoint];
+    NSUInteger ret = [self pageForPoint:midpoint];
     if (page)
         *page = ret;
     if (pagePoint)
@@ -170,7 +170,7 @@ static const float ZoomScaleFactor = 1.3;
     return ret;
 }
 
-- (void)scrollToMidpointOnPage:(unsigned int)page point:(NSPoint)midPoint
+- (void)scrollToMidpointOnPage:(NSUInteger)page point:(NSPoint)midPoint
 {
     float viewWidth = NSWidth([[_scrollView contentView] documentVisibleRect]);
     float viewHeight = NSHeight([[_scrollView contentView] documentVisibleRect]);
@@ -192,7 +192,7 @@ static const float ZoomScaleFactor = 1.3;
 - (void)zoomIn:(id)sender
 {
     NSPoint pagePoint;
-    unsigned int page;
+    NSUInteger page;
     DLog(@"old frame: %@\n", NSStringFromRect([self frame]));
     [self getViewingMidpointToPage:&page pagePoint:&pagePoint];
 
@@ -211,7 +211,7 @@ static const float ZoomScaleFactor = 1.3;
 - (void)zoomOut:(id)sender
 {
     NSPoint pagePoint;
-    unsigned int page;
+    NSUInteger page;
     DLog(@"old frame: %@\n", NSStringFromRect([self frame]));
     [self getViewingMidpointToPage:&page pagePoint:&pagePoint];
     
@@ -248,7 +248,7 @@ static const float ZoomScaleFactor = 1.3;
     _current_page = [self getViewingMidpointToPage:nil pagePoint:nil];
 }
 
-- (void)scrollToPage:(unsigned int)page
+- (void)scrollToPage:(NSUInteger)page
 {
     NSSize sz = [self pageSizeForPage:page];
     NSRect fullPageRect = NSMakeRect(0, 0, sz.width, sz.height);
@@ -288,7 +288,7 @@ static const float ZoomScaleFactor = 1.3;
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowBlurRadius:5.0];
     [shadow setShadowOffset:NSMakeSize(0.0, -2.0)];
-    for (unsigned int i = 0; i < [_pdf_document pageCount]; i++) {
+    for (NSUInteger i = 0; i < [_pdf_document pageCount]; i++) {
         NSSize sz = [self sizeForPage:i];
         NSRect page_rect = NSMakeRect(PageBorderSize, how_far_down,
                                       sz.width, sz.height);
@@ -312,13 +312,13 @@ static const float ZoomScaleFactor = 1.3;
             [[_pdf_document pageAtIndex:i] drawWithBox:_box
                                              toContext:theContext.CGContext];
 
-        for (unsigned int j = 0; j < [_overlayGraphics count]; j++) {
+        for (NSUInteger j = 0; j < [_overlayGraphics count]; j++) {
             FPGraphic *g;
             g = [_overlayGraphics objectAtIndex:j];
             if ([g page] == i)
                 [g draw:[_selectedGraphics containsObject:g]];
         }
-        for (unsigned int j = 0; j < [_overlayGraphics count]; j++) {
+        for (NSUInteger j = 0; j < [_overlayGraphics count]; j++) {
             FPGraphic *g;
             g = [_overlayGraphics objectAtIndex:j];
             if ((_editingGraphic != g) &&
@@ -335,7 +335,7 @@ static const float ZoomScaleFactor = 1.3;
     }
 }
 
-- (unsigned int)pageForPointFromEvent:(NSEvent *)theEvent
+- (NSUInteger)pageForPointFromEvent:(NSEvent *)theEvent
 {
     NSPoint loc_in_window = [theEvent locationInWindow];
     loc_in_window.x += 0.5;
@@ -346,12 +346,12 @@ static const float ZoomScaleFactor = 1.3;
     return [self pageForPoint:loc_in_view];
 }
 
-- (unsigned int)pageForPoint:(NSPoint)point
+- (NSUInteger)pageForPoint:(NSPoint)point
 {
     if (nil == _pdf_document)
         return 0;
     float bottom_border = PageBorderSize / 2.0;
-    for (unsigned int i = 0; i < [_pdf_document pageCount]; i++) {
+    for (NSUInteger i = 0; i < [_pdf_document pageCount]; i++) {
         NSSize sz = [self sizeForPage:i];
         bottom_border += sz.height + PageBorderSize;
         if (point.y < bottom_border) return i;
@@ -361,7 +361,7 @@ static const float ZoomScaleFactor = 1.3;
 
 // thre returned transform works in the following direction:
 // page-coordinate ==(transform)==> doc-view-coordinate
-- (NSAffineTransform *)transformForPage:(unsigned int)page
+- (NSAffineTransform *)transformForPage:(NSUInteger)page
 {
     assert(_pdf_document);
     assert(page < [_pdf_document pageCount]);
@@ -369,7 +369,7 @@ static const float ZoomScaleFactor = 1.3;
     NSAffineTransform *at = [NSAffineTransform transform];
     [at scaleXBy:1.0 yBy:-1.0];
     float yTranslate = 0.0;
-    for (unsigned int i = 0; i <= page; i++) {
+    for (NSUInteger i = 0; i <= page; i++) {
         NSSize sz = [self sizeForPage:i];
         yTranslate -= (PageBorderSize + sz.height);
     }
@@ -378,20 +378,20 @@ static const float ZoomScaleFactor = 1.3;
     return at;
 }
 
-- (NSPoint)convertPoint:(NSPoint)point toPage:(unsigned int)page
+- (NSPoint)convertPoint:(NSPoint)point toPage:(NSUInteger)page
 {
     NSAffineTransform *transform = [self transformForPage:page];
     [transform invert];
     return [transform transformPoint:point];
 }
 
-- (NSPoint)convertPoint:(NSPoint)point fromPage:(unsigned int)page
+- (NSPoint)convertPoint:(NSPoint)point fromPage:(NSUInteger)page
 {
     NSAffineTransform *transform = [self transformForPage:page];
     return [transform transformPoint:point];
 }
 
-- (NSRect)convertRect:(NSRect)rect toPage:(unsigned int)page
+- (NSRect)convertRect:(NSRect)rect toPage:(NSUInteger)page
 {
     assert(rect.size.width >= 0.0);
     assert(rect.size.height >= 0.0);
@@ -408,7 +408,7 @@ static const float ZoomScaleFactor = 1.3;
     return ret;
 }
 
-- (NSRect)convertRect:(NSRect)rect fromPage:(unsigned int)page
+- (NSRect)convertRect:(NSRect)rect fromPage:(NSUInteger)page
 {
     assert(rect.size.width >= 0.0);
     assert(rect.size.height >= 0.0);
@@ -427,7 +427,7 @@ static const float ZoomScaleFactor = 1.3;
 }
 
 - (NSPoint)pagePointForPointFromEvent:(NSEvent *)theEvent
-                                 page:(unsigned int)page
+                                 page:(NSUInteger)page
 {
     NSPoint loc_in_window = [theEvent locationInWindow];
     loc_in_window.x += 0.5;
@@ -449,8 +449,8 @@ static const float ZoomScaleFactor = 1.3;
     NSPoint oldPoint;
     NSPoint newPoint;
     float deltaX, deltaY;
-    unsigned int oldPage;
-    unsigned int newPage;
+    NSUInteger oldPage;
+    NSUInteger newPage;
     int i;
     
     NSArray *selectedGraphics = [_selectedGraphics allObjects];
@@ -531,10 +531,10 @@ static const float ZoomScaleFactor = 1.3;
         justStoppedEditing = YES;
     }
     
-    unsigned int tool =
+    NSUInteger tool =
         [[FPToolPaletteController sharedToolPaletteController] currentTool];
 
-    unsigned int page = [self pageForPointFromEvent:theEvent];
+    NSUInteger page = [self pageForPointFromEvent:theEvent];
     NSPoint pagePoint =
         [self pagePointForPointFromEvent:theEvent page:page];
         
@@ -564,7 +564,7 @@ static const float ZoomScaleFactor = 1.3;
     if (tool == FPToolArrow) {
         // if we hit a knob, resize that shape by its knob
         if ([_selectedGraphics count]) {
-            for (int i = [_overlayGraphics count] - 1; i >= 0; i--) {
+            for (NSInteger i = (NSInteger)[_overlayGraphics count] - 1; i >= 0; i--) {
                 FPGraphic *graphic = [_overlayGraphics objectAtIndex:i];
                 if (![_selectedGraphics containsObject:graphic]) continue;
                 int knob = [graphic knobForEvent:theEvent];
@@ -587,8 +587,8 @@ static const float ZoomScaleFactor = 1.3;
         // if not holding shift:
         //   if shape is selected, do nothing
         //   else make shape the only selected shape
-        int i;
-        for (i = [_overlayGraphics count] - 1; i >= 0; i--) {
+        NSInteger i;
+        for (i = (NSInteger)[_overlayGraphics count] - 1; i >= 0; i--) {
             FPGraphic *graphic = [_overlayGraphics objectAtIndex:i];
             if (([graphic page] == page) &&
                 NSPointInRect(pagePoint, [graphic safeBounds])) {
@@ -671,8 +671,8 @@ static const float ZoomScaleFactor = 1.3;
     // and get it up and running.
     Class toolClass = [[FPToolPaletteController sharedToolPaletteController] 
         classForCurrentTool];
-    int i;
-    for (i = [_overlayGraphics count] - 1; i >= 0; i--) {
+    NSInteger i;
+    for (i = (NSInteger)[_overlayGraphics count] - 1; i >= 0; i--) {
         FPGraphic *gr = [_overlayGraphics objectAtIndex:i];
         if ([gr isEditable] && ([gr class] == toolClass) &&
             ([gr page] == page) &&
@@ -779,7 +779,7 @@ static const float ZoomScaleFactor = 1.3;
 }
 
 - (void)openPanelDidEnd:(NSOpenPanel *)panel
-             returnCode:(int)returnCode
+             returnCode:(NSInteger)returnCode
             contextInfo:(void *)contextInfo
 {
     if (NSModalResponseOK != returnCode) return;
@@ -858,7 +858,7 @@ static const float ZoomScaleFactor = 1.3;
     // first calculate the max page size in the PDF w/o using the scaling
     // factor
     NSSize maxPageSize = NSMakeSize(0.0, 0.0);
-    for (unsigned int i = 0; i < [_pdf_document pageCount]; i++) {
+    for (NSUInteger i = 0; i < [_pdf_document pageCount]; i++) {
         PDFPage *pg = [_pdf_document pageAtIndex:i];
         NSSize sz = [pg boundsForBox:_box].size;
         if (90 == ([pg rotation] % 180))
@@ -886,7 +886,7 @@ static const float ZoomScaleFactor = 1.3;
 - (NSArray *)archivalOverlayGraphics
 {
     NSMutableArray *arr = [NSMutableArray array];
-    for (unsigned int i = 0; i < [_overlayGraphics count]; i++) {
+    for (NSUInteger i = 0; i < [_overlayGraphics count]; i++) {
         [arr
          addObject:[[_overlayGraphics objectAtIndex:i] archivalDictionary]];
     }
@@ -896,7 +896,7 @@ static const float ZoomScaleFactor = 1.3;
 - (void)setOverlayGraphicsFromArray:(NSArray *)arr
 {
     [_overlayGraphics removeAllObjects];
-    for (unsigned int i = 0; i < [arr count]; i++) {
+    for (NSUInteger i = 0; i < [arr count]; i++) {
         [_overlayGraphics addObject:
             [FPGraphic graphicFromArchivalDictionary:[arr objectAtIndex:i]
                                       inDocumentView:self]];

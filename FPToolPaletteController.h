@@ -28,11 +28,11 @@ extern NSString *FPToolChosen;
     
     NSArray *_buttonArray;
     BOOL _inQuickMove;
-    unsigned int _toolBeforeQuickMove;
+    NSUInteger _toolBeforeQuickMove;
 }
 + (FPToolPaletteController*)sharedToolPaletteController;
 - (IBAction)chooseTool:(id)sender;
-- (unsigned int)currentTool;
+- (NSUInteger)currentTool;
 - (Class)classForCurrentTool;
 
 - (void)keyDown:(NSEvent *)theEvent;
