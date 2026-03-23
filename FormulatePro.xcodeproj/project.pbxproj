@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6A0F0010000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A0F0020000000000000001 /* Assets.xcassets */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -141,6 +142,7 @@
 		C4F40AD40B35D6F1008063B4 /* FPDocumentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPDocumentWindow.m; sourceTree = "<group>"; };
 		C4FDF1610A8BEB1800032EF5 /* FPTextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTextArea.h; sourceTree = "<group>"; };
 		C4FDF1620A8BEB1800032EF5 /* FPTextArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTextArea.m; sourceTree = "<group>"; };
+		B6A0F0020000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +264,7 @@
 				C4DC0D970A82D28800DB476E /* viewmag+.png */,
 				C4DC0DA50A82D35500DB476E /* previous.png */,
 				C45E44A70B3C8C2700D41543 /* FormulatePro.icns */,
-
+				B6A0F0020000000000000001 /* Assets.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -377,7 +379,7 @@
 				C4DC0DB70A82D99700DB476E /* LICENSE.txt in Resources */,
 				C45E44A80B3C8C2700D41543 /* FormulatePro.icns in Resources */,
 				C493CE0E0C8D222900BFAEE8 /* tips.plist in Resources */,
-
+				B6A0F0010000000000000001 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +456,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
@@ -499,6 +502,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
