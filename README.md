@@ -29,6 +29,7 @@ This fork was created to modernize the app and keep it building and running on c
 ### Homebrew
 
 ```
+brew tap stangri/formulatepro
 brew install --cask formulatepro
 ```
 
