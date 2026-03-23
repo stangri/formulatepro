@@ -17,9 +17,34 @@
 
 - (IBAction)showLicense:(id)sender
 {
-    NSString *path;
-    path = [[NSBundle mainBundle] pathForResource:@"LICENSE" ofType:@"txt"];
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"LICENSE" ofType:@"txt"];
+    NSError *error = nil;
+    NSString *license = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    if (!license) return;
+
+    NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 400)
+                                                   styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable)
+                                                     backing:NSBackingStoreBuffered
+                                                       defer:NO];
+    [window setTitle:@"License"];
+    [window center];
+
+    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:[[window contentView] bounds]];
+    [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [scrollView setHasVerticalScroller:YES];
+
+    NSTextView *textView = [[NSTextView alloc] initWithFrame:[[scrollView contentView] bounds]];
+    [textView setEditable:NO];
+    [textView setFont:[NSFont monospacedSystemFontOfSize:11 weight:NSFontWeightRegular]];
+    [textView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [[textView textStorage] beginEditing];
+    [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:license]];
+    [[textView textStorage] endEditing];
+
+    [scrollView setDocumentView:textView];
+    [window setContentView:scrollView];
+    [window setReleasedWhenClosed:NO];
+    [window makeKeyAndOrderFront:nil];
 }
 
 - (IBAction)provideFeedback:(id)sender

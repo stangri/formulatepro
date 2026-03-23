@@ -13,7 +13,7 @@
 		8D15AC310486D014006FF6A4 /* MyDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		B630D7222F08CBDF0075B595 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = B630D7212F08CBDF0075B595 /* Sparkle */; };
+
 		B630D7232F08CCC50075B595 /* FPToolPaletteController.h in Sources */ = {isa = PBXBuildFile; fileRef = C4AB42800A623A6800EE29B2 /* FPToolPaletteController.h */; };
 		C43595C60D306E02006A7FF5 /* FPNonMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C43595C40D306E02006A7FF5 /* FPNonMainWindow.m */; };
 		C43B61D30B2FD56D00C1B850 /* FPTextAreaB.m in Sources */ = {isa = PBXBuildFile; fileRef = C43B61D20B2FD56D00C1B850 /* FPTextAreaB.m */; };
@@ -45,7 +45,7 @@
 		C4AB447F0A718D7600EE29B2 /* continuous.psd in Resources */ = {isa = PBXBuildFile; fileRef = C4AB447E0A718D7600EE29B2 /* continuous.psd */; };
 		C4B25AAB0B431F8800DADA0F /* FPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B25AA90B431F8800DADA0F /* FPImage.m */; };
 		C4B25D980B4ADF8100DADA0F /* NSMutableDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B25D960B4ADF8100DADA0F /* NSMutableDictionaryAdditions.m */; };
-		C4C6834D108AF0B900771440 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = C4C6834C108AF0B900771440 /* dsa_pub.pem */; };
+
 		C4DC0D980A82D28800DB476E /* viewmag-.png in Resources */ = {isa = PBXBuildFile; fileRef = C4DC0D960A82D28800DB476E /* viewmag-.png */; };
 		C4DC0D990A82D28800DB476E /* viewmag+.png in Resources */ = {isa = PBXBuildFile; fileRef = C4DC0D970A82D28800DB476E /* viewmag+.png */; };
 		C4DC0DA60A82D35500DB476E /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = C4DC0DA40A82D35500DB476E /* next.png */; };
@@ -123,8 +123,6 @@
 		C4B25D530B4AD7C900DADA0F /* FPArchiveExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPArchiveExtras.h; sourceTree = "<group>"; };
 		C4B25D950B4ADF8100DADA0F /* NSMutableDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableDictionaryAdditions.h; sourceTree = "<group>"; };
 		C4B25D960B4ADF8100DADA0F /* NSMutableDictionaryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableDictionaryAdditions.m; sourceTree = "<group>"; };
-		C4C682E01089898500771440 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = third_party/Sparkle/Sparkle.framework; sourceTree = SOURCE_ROOT; };
-		C4C6834C108AF0B900771440 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = SOURCE_ROOT; };
 		C4D1094F0C8CA529003A767D /* FPLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPLogging.h; sourceTree = "<group>"; };
 		C4DC0D960A82D28800DB476E /* viewmag-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewmag-.png"; sourceTree = SOURCE_ROOT; };
 		C4DC0D970A82D28800DB476E /* viewmag+.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewmag+.png"; sourceTree = SOURCE_ROOT; };
@@ -151,7 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				B630D7222F08CBDF0075B595 /* Sparkle in Frameworks */,
+
 				C4AB3EE90A5B010000EE29B2 /* PDFKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +160,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C4C682E01089898500771440 /* Sparkle.framework */,
+
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -264,7 +262,7 @@
 				C4DC0D970A82D28800DB476E /* viewmag+.png */,
 				C4DC0DA50A82D35500DB476E /* previous.png */,
 				C45E44A70B3C8C2700D41543 /* FormulatePro.icns */,
-				C4C6834C108AF0B900771440 /* dsa_pub.pem */,
+
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -344,7 +342,6 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* FormulatePro */;
 			packageReferences = (
-				B630D7202F08CBDF0075B595 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -380,7 +377,7 @@
 				C4DC0DB70A82D99700DB476E /* LICENSE.txt in Resources */,
 				C45E44A80B3C8C2700D41543 /* FormulatePro.icns in Resources */,
 				C493CE0E0C8D222900BFAEE8 /* tips.plist in Resources */,
-				C4C6834D108AF0B900771440 /* dsa_pub.pem in Resources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 0.0.7;
@@ -501,6 +499,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_ENTITLEMENTS = FormulatePro.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = YES;
@@ -513,7 +512,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"@loader_path/../Frameworks",
-					"$(PROJECT_DIR)/third_party/Sparkle",
+
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -534,6 +533,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = FormulatePro;
 				SDKROOT = macosx;
@@ -562,16 +562,14 @@
 		C4AB3EA10A5AFE1100EE29B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
 				GCC_WARN_PEDANTIC = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				WARNING_CFLAGS = "-Wmost";
@@ -601,24 +599,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		B630D7202F08CBDF0075B595 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		B630D7212F08CBDF0075B595 /* Sparkle */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B630D7202F08CBDF0075B595 /* XCRemoteSwiftPackageReference "Sparkle" */;
-			productName = Sparkle;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 }

@@ -1,42 +1,74 @@
 #!/bin/bash
+set -euo pipefail
 
-# simple usage: $ ./release.sh -v 0.0.6
+# Build, sign, notarize, and package FormulatePro for direct distribution (Homebrew Cask, website, etc.)
+#
+# Prerequisites:
+#   - "Developer ID Application" certificate installed in keychain
+#   - App-specific password stored:  xcrun notarytool store-credentials "formulatepro-notary"
+#
+# Usage: ./release.sh -v 0.0.7
 
-# $1 - source folder
-# $2 - volume name
-# $3 - output file
+TEAM_ID="885FVTF3YD"
+IDENTITY="Developer ID Application"
+NOTARY_PROFILE="formulatepro-notary"
 
-# for example:
-# ./release.sh ./build/Release/FormulatePro.app FormulatePro-0.0.2 FormulatePro-0.0.2.dmg
-
-if [ "$1" = "-v" ]; then
-	SRC="./build/Release/FormulatePro.app"
-	VOL="FormulatePro-$2"
-	OUT="$VOL.dmg"
-	VERS=$2
-else
-	SRC="$1"
-	VOL="$2"
-	OUT="$3"
+if [ "${1:-}" != "-v" ] || [ -z "${2:-}" ]; then
+    echo "Usage: $0 -v <version>"
+    echo "Example: $0 -v 0.0.7"
+    exit 1
 fi
 
-echo "SRC = '$SRC'"
-echo "VOL = '$VOL'"
-echo "OUT = '$OUT'"
-echo Creating .dmg file
-GZIP=-9 hdiutil create -fs HFS+ -srcfolder "$SRC" -volname "$VOL" "$OUT"
-echo signing
-SIG=$(ruby ./third_party/Sparkle/Extras/Signing\ Tools/sign_update.rb \
-    "$OUT" ./dsa_priv.pem)
-cat <<EOF
-        <item>
-            <title>Version $VERS</title>
-            <description>http://adlr.info/appcasts/$VOL.html</description>
-            <pubDate>$(date)</pubDate>
-            <enclosure sparkle:version="$VERS"
-                url="http://adlr.info/appcasts/$VOL.dmg"
-                sparkle:dsaSignature="$SIG"
-                length="$(stat -f "%z" "$OUT")"
-                type="application/octet-stream"/>
-        </item>
-EOF
+VERS="$2"
+VOL="FormulatePro-${VERS}"
+OUT="${VOL}.dmg"
+BUILD_DIR="$(pwd)/build/Release-Direct"
+APP="${BUILD_DIR}/FormulatePro.app"
+
+echo "=== Building FormulatePro ${VERS} (universal) ==="
+xcodebuild -project FormulatePro.xcodeproj \
+    -scheme FormulatePro \
+    -configuration Release \
+    ARCHS="arm64 x86_64" \
+    ONLY_ACTIVE_ARCH=NO \
+    CODE_SIGN_STYLE=Manual \
+    CODE_SIGN_IDENTITY="${IDENTITY}" \
+    DEVELOPMENT_TEAM="${TEAM_ID}" \
+    CODE_SIGN_ENTITLEMENTS=FormulatePro-Direct.entitlements \
+    CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+    ENABLE_HARDENED_RUNTIME=YES \
+    OTHER_CODE_SIGN_FLAGS="--timestamp" \
+    CONFIGURATION_BUILD_DIR="${BUILD_DIR}" \
+    clean build
+
+echo ""
+echo "=== Verifying ==="
+echo "Architectures: $(lipo -info "${APP}/Contents/MacOS/FormulatePro")"
+codesign -dvv "${APP}" 2>&1 | grep -E "^(Authority|Identifier|Format)"
+
+echo ""
+echo "=== Creating DMG ==="
+rm -f "${OUT}"
+hdiutil create -fs HFS+ -srcfolder "${APP}" -volname "${VOL}" "${OUT}"
+
+echo ""
+echo "=== Notarizing ==="
+xcrun notarytool submit "${OUT}" \
+    --keychain-profile "${NOTARY_PROFILE}" \
+    --wait
+
+echo ""
+echo "=== Stapling ==="
+xcrun stapler staple "${OUT}"
+
+echo ""
+echo "=== Done ==="
+SHA=$(shasum -a 256 "${OUT}" | awk '{print $1}')
+SIZE=$(stat -f "%z" "${OUT}")
+echo "File:    ${OUT}"
+echo "Size:    ${SIZE} bytes"
+echo "SHA-256: ${SHA}"
+echo ""
+echo "Homebrew Cask info:"
+echo "  version \"${VERS}\""
+echo "  sha256 \"${SHA}\""
