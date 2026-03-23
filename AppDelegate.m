@@ -36,6 +36,8 @@
     NSTextView *textView = [[NSTextView alloc] initWithFrame:[[scrollView contentView] bounds]];
     [textView setEditable:NO];
     [textView setFont:[NSFont userFixedPitchFontOfSize:11]];
+    [textView setBackgroundColor:[NSColor whiteColor]];
+    [textView setTextColor:[NSColor blackColor]];
     [textView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [[textView textStorage] beginEditing];
     [[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:license]];
@@ -47,44 +49,77 @@
     [window makeKeyAndOrderFront:nil];
 }
 
-- (IBAction)provideFeedback:(id)sender
+
+- (void)removeUnwantedMenuItems
 {
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL URLWithString:@"mailto:formulate@adlr.info"]];
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenu *appMenu = [[mainMenu itemAtIndex:0] submenu];
+
+    // Collect items to remove from the app menu
+    NSMutableArray *itemsToRemove = [NSMutableArray array];
+    for (NSMenuItem *item in [appMenu itemArray]) {
+        NSString *title = [item title];
+        if ([title containsString:@"Check for Update"] ||
+            [title containsString:@"Bug"] ||
+            [title containsString:@"bug"] ||
+            [title containsString:@"Feedback"] ||
+            [title containsString:@"feedback"]) {
+            [itemsToRemove addObject:item];
+        }
+    }
+
+    // Remove items and their preceding separators
+    for (NSMenuItem *item in itemsToRemove) {
+        NSInteger idx = [appMenu indexOfItem:item];
+        [appMenu removeItem:item];
+        if (idx > 0 && idx <= [appMenu numberOfItems] &&
+            [[appMenu itemAtIndex:idx - 1] isSeparatorItem]) {
+            [appMenu removeItemAtIndex:idx - 1];
+        }
+    }
+
+    // Clean up any double separators left behind
+    for (NSInteger i = [appMenu numberOfItems] - 1; i > 0; i--) {
+        if ([[appMenu itemAtIndex:i] isSeparatorItem] &&
+            [[appMenu itemAtIndex:i - 1] isSeparatorItem]) {
+            [appMenu removeItemAtIndex:i];
+        }
+    }
 }
 
-- (IBAction)viewBugList:(id)sender
+- (void)removeCheckForUpdatesFromPreferences
 {
-    [[NSWorkspace sharedWorkspace] openURL:
-        [NSURL
-         URLWithString:@"http://code.google.com/p/formulatepro/issues/list"]];
+    // Find and hide the "Check for new versions at startup" checkbox
+    // in the Preferences window by walking all windows
+    for (NSWindow *window in [NSApp windows]) {
+        if ([[window title] containsString:@"Preferences"] ||
+            [[window title] containsString:@"Settings"]) {
+            [self removeUpdateCheckboxFromView:[window contentView]];
+        }
+    }
 }
 
-- (IBAction)fileNewBug:(id)sender
+- (void)removeUpdateCheckboxFromView:(NSView *)view
 {
-    [[NSWorkspace sharedWorkspace] openURL:
-     [NSURL
-      URLWithString:@"http://code.google.com/p/formulatepro/issues/entry"]];
+    for (NSView *subview in [view subviews]) {
+        if ([subview isKindOfClass:[NSButton class]]) {
+            NSButton *button = (NSButton *)subview;
+            NSString *title = [button title];
+            if ([title containsString:@"Check for new versions"] ||
+                [title containsString:@"Check for update"] ||
+                [title containsString:@"SUCheckAtStartup"]) {
+                [button setHidden:YES];
+            }
+        }
+        [self removeUpdateCheckboxFromView:subview];
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    /* // this code copies the arrow cursor image to the clipboard
-    NSImage *arrow;
-    int i;
-    NSData *d;
-    NSPasteboard *pb;
-    
-    [arrowToolButton setImage:[[NSCursor arrowCursor] image]];
-    arrow = [[NSCursor arrowCursor] image];
-    DLog(@"reps %d\n", i, [[arrow representations] count]);
-    d = [[arrow bestRepresentationForDevice:nil]
-        representationUsingType:NSTIFFFileType
-                     properties:nil];
-    DLog(@"d = %x\n", d);
-    pb = [NSPasteboard generalPasteboard];
-    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:nil];
-    DLog(@"ok? %d\n", [pb setData:d forType:NSTIFFPboardType]);*/
+    [self removeUnwantedMenuItems];
+    // Delay slightly to ensure Preferences window nib is loaded
+    [self performSelector:@selector(removeCheckForUpdatesFromPreferences) withObject:nil afterDelay:0.5];
 }
 
 @end

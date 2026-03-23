@@ -12,8 +12,5 @@
 @interface AppDelegate : NSObject {
 }
 - (IBAction)showLicense:(id)sender;
-- (IBAction)provideFeedback:(id)sender;
-- (IBAction)viewBugList:(id)sender;
-- (IBAction)fileNewBug:(id)sender;
 
 @end
